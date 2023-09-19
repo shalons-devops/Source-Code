@@ -1,0 +1,22 @@
+# Use the official Golang image as the base image
+FROM golang:1.19
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the Go application source code, go.mod, and go.sum into the container
+COPY go.mod .
+COPY go.sum .
+COPY . .
+
+# Download and cache Go module dependencies
+RUN go mod download
+
+# Build the Go application
+RUN go build -o server
+
+# Expose the port your application will run on
+EXPOSE 3003
+
+# Command to run your application
+CMD ["./server"]
